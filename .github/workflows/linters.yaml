@@ -21,7 +21,7 @@ jobs:
       - name: Run super-linter
         uses: github/super-linter/slim@v4
         env:
-          DEFAULT_BRANCH: main
+          DEFAULT_BRANCH: gh-pages
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # limit to new and updated files
           VALIDATE_ALL_CODEBASE: false
