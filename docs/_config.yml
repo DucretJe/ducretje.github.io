@@ -1,3 +1,4 @@
+---
 # Welcome to Jekyll!
 #
 # This config file is meant for settings that affect your whole blog, values
@@ -61,7 +62,7 @@ accent_color: '#c60404'
 
 menu:
   - title: Blog
-    url:   /posts/
+    url: /posts/
   - title: About
     url: /about/
   - title: Resume
@@ -69,10 +70,10 @@ menu:
     
 collections:
   featured_categories:
-    permalink:         /:name/
-    output:            true
+    permalink: /:name/
+    output: true
   featured_tags:
-    permalink:         /tag-:name/
-    output:            true
+    permalink: /tag-:name/
+    output: true
 
 google_analytics: G-0445QYWSL3
