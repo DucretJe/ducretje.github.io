@@ -261,7 +261,7 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages (~> 226)
-  http_parser.rb (~> 0.6.0)
+  http_parser.rb (~> 0.8.0)
   jekyll-feed (~> 0.12)
   jekyll-paginate
   minima (~> 2.5)
