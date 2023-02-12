@@ -75,7 +75,7 @@ collections:
     permalink: /tag-:name/
     output: true
 
-google_analytics: G-EB1L2QF3SX
+google_analytics: UA-256928748-1
 
 author:
   social:
