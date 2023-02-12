@@ -41,6 +41,7 @@ Once my diploma acquired, I started to look for a DevOps job in Switzerland (Sin
 {:.lead}
 
 First, to answer some questions you may have after reading my resume. Secondly I wanted to write some blog articles about tools I use, techs I find interesting etc... I hope you'll find it interesting 🤞.
+I also recently started to play with [HackTheBox](https://www.hackthebox.com/), it's a really good place to solve some intellectual challenges. I will also publish some walkthroughs.
 
 >_You are an SRE why don't you host this website yourself?_
 {:.lead}

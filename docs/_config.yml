@@ -25,9 +25,6 @@ description: >- # this means to ignore newlines until "baseurl:"
   Site Reliability Engineer
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://ducretje.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-github: ducretje
-linkedin: "jérôme-ducret-35225260"
-
 
 # Build settings
 remote_theme: hydecorp/hydejack@v9
@@ -65,6 +62,8 @@ menu:
     url: /posts/
   - title: About
     url: /about/
+  - title: Box walkthroughs
+    url: /box/
   # - title: Resume
   #   url: /resume/
     
@@ -77,3 +76,10 @@ collections:
     output: true
 
 google_analytics: G-0445QYWSL3
+
+author:
+  social:
+    github: ducretje
+    email: jducret@pm.me
+    linkedin: "jérôme-ducret-35225260"
+    hackthebox: "1265378"
