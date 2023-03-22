@@ -27,19 +27,19 @@ Basic schema of what we want to achieve
 {:.figcaption}
 
 - Network
-    - 1 VPC
-    - 3 subnets
-    - 1 Security Group
-    - 1 Internet Gateway & routes
+  - 1 VPC
+  - 3 subnets
+  - 1 Security Group
+  - 1 internet Gateway & routes
 - Computing
-    - 1 Auto Scaling Group
-    - 1 Load Balancer
+  - 1 Auto Scaling Group
+  - 1 Load Balancer
 - Logs & Metrics
-    - CloudWatch
+  - CloudWatch
 
 ## Basic Network
 
-In order to deploy ASG instances on AWS, you'll first need to set up a basic network. This includes creating a VPC, subnets, security groups, routes an an Internet Gateway.  
+In order to deploy ASG instances on AWS, you'll first need to set up a basic network. This includes creating a VPC, subnets, security groups, routes an an internet Gateway.  
 **We will focus on this point on this article.**  
 
 Currently, I am keeping this repository public. You can find it [here](https://github.com/DucretJe/std-deploy).
@@ -113,29 +113,29 @@ Our `MakeFile` will contain the following:
 all: test
 
 plan:
-	cd 01-network && \
-	terraform init && \
-	terraform validate && \
-	terraform plan  && \
-	echo "01-network: SHOULD BE OK"
+  cd 01-network && \
+  terraform init && \
+  terraform validate && \
+  terraform plan  && \
+  echo "01-network: SHOULD BE OK"
 
 test:
-	cd 01-network && \
-	terraform init && \
-	terraform validate && \
-	terraform apply --auto-approve && \
-	cd .. && \
-	python3 -m venv .venv && \
-	. .venv/bin/activate && \
-	pip install -r requirements.txt && \
-	python3 test.py --region ${AWS_REGION} --vpc-id $$(cd 01-network && terraform output vpc_id | sed 's/"//g') && \
-	cd 01-network && \
-	terraform destroy --auto-approve && \
-	echo "01-network: OK"
+  cd 01-network && \
+  terraform init && \
+  terraform validate && \
+  terraform apply --auto-approve && \
+  cd .. && \
+  python3 -m venv .venv && \
+  . .venv/bin/activate && \
+  pip install -r requirements.txt && \
+  python3 test.py --region ${AWS_REGION} --vpc-id $$(cd 01-network && terraform output vpc_id | sed 's/"//g') && \
+  cd 01-network && \
+  terraform destroy --auto-approve && \
+  echo "01-network: OK"
 
 destroy:
-	cd 01-network && \
-	terraform destroy --auto-approve
+  cd 01-network && \
+  terraform destroy --auto-approve
 ```
 
 Finally we add a workflow to automate the tests, also we finish our Python test to handle the arguments and give it a `main` and we’re good to go! 💪  
@@ -212,7 +212,7 @@ resource "aws_iam_role_policy" "vpc_logs" {
 
 ### Subnets
 
-Ok, we now have a VPC, but it is currently empty. Let's populate it by adding some subnets.
+OK, we now have a VPC, but it is currently empty. Let's populate it by adding some subnets.
 
 To ensure our module is as easy to use as possible, we have already declared a CIDR for our VPC. In our test, the CIDR is `10.0.0.0/16`. Our objective is to create subnets in all zones without having to manually calculate and declare their CIDR.
 
@@ -314,7 +314,7 @@ sg_description = "Security group for the VPC"
   sg_name = "sg"
 ```
 
-I agree that a *yolo* rule for egress is not ideal. However, since the test deployment is aimed to be ephemeral, it may not be a big deal, and it could potentially help with future debugging. Therefore, let's agree to keep it this way.
+I agree that a _yolo_ rule for egress is not ideal. However, since the test deployment is aimed to be ephemeral, it may not be a big deal, and it could potentially help with future debugging. Therefore, let's agree to keep it this way.
 
 Well, that's good enough for me. Maybe we can improve by finding a more efficient way to spawn security groups. For example, we could develop a method to create several security groups simultaneously.
 
@@ -366,7 +366,7 @@ The final section of this blog post will cover Python tests. While we have laid 
 - VPC
 - Security Group
 - Subnets
-- Internet Gateway
+- internet Gateway
 
 We want all items to be tested and avoid the script from stopping on the first issue. To achieve this, we create a new class called `TestFailed` and use it in the function `run_test`. This function runs our different tests as a list and returns their exception, if any. We want it to run all tests and report their results afterwards.
 
