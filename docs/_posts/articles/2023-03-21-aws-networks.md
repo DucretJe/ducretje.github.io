@@ -3,12 +3,12 @@ layout: post
 title:  "AWS Deployment Part I"
 categories: posts
 subtitle: AWS Deployment Part I, the network
-accent_image: /assets/img/blog/make/logo-1920.png
+accent_image: /assets/img/blog/aws-p1/banner.png
+accent_color: '#FA8D22'
 image:
-  path:    /assets/img/blog/make/logo-1920.png
+  path:    /assets/img/blog/aws-p1/banner.png
   srcset:
-    1920w: /assets/img/blog/make/logo-1920.png
-    640w:  /assets/img/blog/make/logo-1920.png
+    1920w: /assets/img/blog/aws-p1/banner.png
 ---
 
 ## Introduction
@@ -19,10 +19,12 @@ In addition to deploying the resources, I will also be incorporating tests into 
 
 I would also like to take this opportunity to test some new tools that could help me with this task:
 
-- Chatcody: Since I'm working on this project alone, I don't have anyone to review my code. This AI-based tool can "replace" a colleague and provide feedback on the code I push.
-- ChatGPT: This tool is widely discussed, and there are better articles available, so I won't write much about it. However, I will use it to assist me with this exercise.
+- [Chatcody](https://github.com/marketplace/chatcody): Since I'm working on this project alone, I don't have anyone to review my code. This AI-based tool can "replace" a colleague and provide feedback on the code I push.
+- [ChatGPT](https://ai.com): This tool is widely discussed, and there are better articles available, so I won't write much about it. However, I will use it to assist me with this exercise.
 
-![Full-width image](/assets/img/articles/aws-p1/schema.png){:.lead width="800" height="100" loading="lazy"}
+![Full-width image](/assets/img/blog/aws-p1/schema.png){:.lead width="800" height="100" loading="lazy"}
+Basic schema of what we want to achieve
+{:.figcaption}
 
 - Network
     - 1 VPC
@@ -37,7 +39,10 @@ I would also like to take this opportunity to test some new tools that could hel
 
 ## Basic Network
 
-In order to deploy ASG instances on AWS, you'll first need to set up a basic network. This includes creating a VPC, subnets, security groups, routes an an Internet Gateway.
+In order to deploy ASG instances on AWS, you'll first need to set up a basic network. This includes creating a VPC, subnets, security groups, routes an an Internet Gateway.  
+**We will focus on this point on this article.**  
+
+Currently, I am keeping this repository public. You can find it [here](https://github.com/DucretJe/std-deploy).
 
 ### VPC
 
@@ -51,7 +56,7 @@ resource "aws_vpc" "this" {
 }
 ```
 
-We have to declare the variables, and this is it! Ready for our first commit 🚀
+We have to declare the variables, and this is it! Ready for our first commit 🚀  
 It's not quite ready yet. As I mentioned earlier, we want to add some tests to make it easier to maintain in the future. Although it may seem like overkill at the moment, since it's currently quite simple, adding tests will be a good way to train ourselves and hopefully prevent accidental errors in the future.
 
 To test the deployment, we will add some Python tests to check if the resource is available.
@@ -81,9 +86,11 @@ Although it may not be particularly useful, because it is essentially what Terra
 
 To simplify the testing process, we can create a `tests` directory that includes our Python code, makefile, and a Terraform file that calls our new network module.
 
-![Full-width image](/assets/img/articles/aws-p1/folder.png){:.lead width="800" height="100" loading="lazy"}
+![Full-width image](/assets/img/blog/aws-p1/folder.png){:.lead width="800" height="100" loading="lazy"}
+Our `tests` directory
+{:.figcaption}
 
-Our `[main.tf](http://main.tf)` file is quite simple
+Our `main.tf` file is quite simple
 
 ```terraform
 module "network" {
@@ -131,7 +138,7 @@ destroy:
 	terraform destroy --auto-approve
 ```
 
-Finally we add a workflow to automate the tests, also we finish our Python test to handle the arguments and give it a `main` and we’re good to go! 💪
+Finally we add a workflow to automate the tests, also we finish our Python test to handle the arguments and give it a `main` and we’re good to go! 💪  
 
 Well… not so fast, `checkov` is not so happy with our terraform code, since we don’t log anything. So reading a bit its error we need to:
 
@@ -141,7 +148,7 @@ Well… not so fast, `checkov` is not so happy with our terraform code, since we
 - A log group in CloudWatch
 - A log flow
 
-This makes our `[vpc.tf](http://vpc.tf)` file a bit longer since we add:
+This makes our `vpc.tf` file a bit longer since we add:
 
 ```terraform
 resource "aws_flow_log" "vpc_logs" {
@@ -237,7 +244,7 @@ We ask Terraform to repeat the calculation for each availability zone and then c
 - `10.0.1.0/24`
 - `10.0.2.0/24`
 
-We'll receive 251 free IPs per subnet. This is sufficient for our project, but it would be an improvement for our module to allow users to choose the size of their subnets. 💪
+We'll receive 251 free IPs per subnet. This is sufficient for our project, but it would be an improvement for our module to allow users to choose the size of their subnets. 💪  
 
 Our continuous integration and `Chatcody` are satisfied. This step is ready to be merged!
 
@@ -245,7 +252,8 @@ Our continuous integration and `Chatcody` are satisfied. This step is ready to b
 
 Connectivity is important, but we must also have control over it.
 
-***********************************“POWER IS NOTHING WITHOUT CONTROL”***********************************
+_Power is nothing without control_
+{:.note title="💭 Wisdom"}
 
 To control the traffic that flows through our subnets, we need to add security groups.
 
@@ -349,4 +357,151 @@ To connect two resources, we create a third one that acts as glue. In this case,
 - The route table, which aims at the VPC we created and adds a default route aimed at the gateway. We can also add tags to the route table.
 - The route table association, which associates each created subnet to the route table.
 
-`var.internet_gateway` is set to `true` by default, so we don't need to declare variables to use it. With these steps complete, we can move on to the computing module in the next part.
+`var.internet_gateway` is set to `true` by default, so we don't need to declare variables to use it.
+
+### Enhance our tests
+
+The final section of this blog post will cover Python tests. While we have laid some groundwork, there is more work to be done to improve the tests. It is our goal to test all of our resources thoroughly.
+
+- VPC
+- Security Group
+- Subnets
+- Internet Gateway
+
+We want all items to be tested and avoid the script from stopping on the first issue. To achieve this, we create a new class called `TestFailed` and use it in the function `run_test`. This function runs our different tests as a list and returns their exception, if any. We want it to run all tests and report their results afterwards.
+
+```python
+import argparse
+
+import boto3
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--region", required=True, help="AWS region")
+    parser.add_argument("--vpc-id", required=True, help="VPC ID")
+    parser.add_argument("--security-group-id", required=True, help="Security group ID")
+    parser.add_argument(
+        "--subnet-ids",
+        required=True,
+        nargs="+",
+        help="List of subnet IDs",
+    )
+    return parser.parse_args()
+
+class TestFailed(Exception):
+    pass
+
+def test_vpc_exists(region_name, vpc_id):
+    try:
+        session = boto3.Session()
+        ec2_client = session.client("ec2", region_name=region_name)
+        response = ec2_client.describe_vpcs(VpcIds=[vpc_id])
+        assert len(response["Vpcs"]) == 1, f"VPC {vpc_id} does not exist"
+        print(f"VPC {vpc_id} exists")
+    except Exception as e:
+        raise TestFailed(f"Failed to test VPC {vpc_id}: {e}")
+
+def test_security_group_exists(region_name, security_group_id):
+    try:
+        session = boto3.Session()
+        ec2_client = session.client("ec2", region_name=region_name)
+        response = ec2_client.describe_security_groups(GroupIds=[security_group_id])
+        assert (
+            len(response["SecurityGroups"]) == 1
+        ), f"Security group {security_group_id} does not exist"
+        print(f"Security group {security_group_id} exists")
+    except Exception as e:
+        raise TestFailed(f"Failed to test security group {security_group_id}: {e}")
+
+def test_subnets_exist(region_name, vpc_id, subnet_ids):
+    try:
+        session = boto3.Session()
+        ec2_client = session.client("ec2", region_name=region_name)
+        response = ec2_client.describe_subnets(SubnetIds=subnet_ids)
+        subnet_ids_in_aws = [subnet["SubnetId"] for subnet in response["Subnets"]]
+        assert len(subnet_ids) == len(subnet_ids_in_aws), "Not all subnets exist"
+        print("All subnets exist")
+    except Exception as e:
+        raise TestFailed(f"Failed to test subnets: {e}")
+
+def test_internet_gateway_exists(region_name, vpc_id):
+    try:
+        session = boto3.Session()
+        ec2_client = session.client("ec2", region_name=region_name)
+        response = ec2_client.describe_internet_gateways(
+            Filters=[{"Name": "attachment.vpc-id", "Values": [vpc_id]}]
+        )
+        assert (
+            len(response["InternetGateways"]) == 1
+        ), f"Internet Gateway does not exist for VPC {vpc_id}"
+        print(f"Internet Gateway exists for VPC {vpc_id}")
+    except Exception as e:
+        raise TestFailed(f"Failed to test Internet Gateway: {e}")
+
+def run_test(test_func, test_args):
+    try:
+        test_func(*test_args)
+    except TestFailed as e:
+        print(f"ERROR: {e}")
+        return False
+    return True
+
+if __name__ == "__main__":
+    args = parse_args()
+
+    test_cases = [
+        (test_vpc_exists, [args.region, args.vpc_id]),
+        (test_security_group_exists, [args.region, args.security_group_id]),
+        (test_subnets_exist, [args.region, args.vpc_id, args.subnet_ids]),
+        (test_internet_gateway_exists, [args.region, args.vpc_id]),
+    ]
+
+    has_errors = False
+    for test_func, test_args in test_cases:
+        if not run_test(test_func, test_args):
+            has_errors = True
+```
+
+### CICD
+
+We have our Terraform files, tests, and a Makefile to run them. The only thing missing is the CI to execute the `make all` command. We also want it to destroy everything created, regardless of the test results. This is crucial to avoid retaining unnecessary resources in our AWS region.
+
+We want the process to run automatically on every pull request that modifies the code, but we also need the ability to trigger it manually if necessary.
+
+```yaml
+---
+name: "🔬 Tests"
+
+on:
+  pull_request:
+    paths:
+      - 'terraform/**'
+      - '.github/workflows/terraform.yaml'
+  workflow_dispatch: # Allow to manually trigger the pipeline
+
+  network:
+    name: 🕸️ Network
+    runs-on: ubuntu-22.04
+    steps:
+      - name: 🛎️ Checkout
+        uses: actions/checkout@v3
+
+      - name: 🚀 Make Plan
+        run: make all
+        working-directory: terraform/network/tests
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: eu-central-1
+
+      - name: 💥 Make Destroy
+        run: make destroy
+        if: always()
+        working-directory: terraform/network/tests
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: eu-central-1
+```
+
+Finally, with these steps complete, we can move on to the computing module in the next part.
