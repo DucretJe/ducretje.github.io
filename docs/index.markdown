@@ -48,4 +48,4 @@ I also recently started to play with [HackTheBox](https://www.hackthebox.com/), 
 
 Well, yes I could but it would imply to maintain it (meaning update the OS, the softwares, secure it), and also pay for the hosting. In the other hand GitHub allows me to host this website for free, and they do all the work for me (thanks for your work guys 🥰).
 
-But I also believe in the **KISS** principle [(Keep It Simple and Stupid)](https://en.wikipedia.org/wiki/KISS_principle), I want this website to be reliable, simple to update and cost effective. GitHub is a pretty good match!
+But I also believe in the **KISS** principle [(Keep It Simple, Silly)](https://en.wikipedia.org/wiki/KISS_principle), I want this website to be reliable, simple to update and cost effective. GitHub is a pretty good match!
