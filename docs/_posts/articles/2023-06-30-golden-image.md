@@ -80,11 +80,12 @@ The major updates may cause some issues, as certain packages may not exist in th
 
 Renovate should now be able to detect our `Dockerfile` and our base image in it. We can check it in the `Dependency Dashboard`:
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/be8e78e1-d4eb-4a78-b984-2734df49caec/Untitled.png)
+<img width="250" alt="Untitled" src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/226db278-c9c6-419d-a550-59bcbaa844df">
+
 
 There is currently no more recent version available. Renovate will not make any change.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e8e80165-6e70-46e0-b053-2fd6ddc70af3/Untitled.png)
+<img width="1008" alt="Untitled" src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/38a4128f-66d1-4aae-95ba-81b0d48f3e00">
 
 From now on, we should always use an up-to-date base image! 🍾
 
@@ -117,7 +118,7 @@ Then we specify the name of the repository and we tell Renovate that it’s a `g
 
 That’s it, Renovate should be now monitoring this repository and will update the value when a new version will be released. We can confirm this in the `Dependency Dashboard`:
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9ba4e957-11e7-4a75-94da-9f8cb2fed5a7/Untitled.png)
+<img width="263" alt="Untitled" src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/9652334c-d977-4118-b0d8-0e2c0ae836e7">
 
 Every time there is an update, the value changes and our script uses it to get the latest version of `starship`.
 
@@ -152,11 +153,11 @@ We will use `loose` versioning everywhere, as advised in the [documentation](htt
 
 This setup is a bit more involved, but it allows Renovate to monitor your packages and can be confirmed in the dashboard.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/eccb03df-99d0-443d-b37b-2c6e45c19005/Untitled.png)
+<img width="319" alt="Untitled" src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/848abec0-4870-494f-b829-77acc916a3d6">
 
 It will stick to the version that we see [here](https://repology.org/project/ca-certificates/versions):
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7f81a8d9-7e96-41b9-8afd-bdbf6b3bc995/Untitled.png)
+<img width="1072" alt="Untitled" src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/009fc43e-f9fe-4618-abfa-a71b6b50d5d6">
 
 This process must also be repeated for ************************each package************************ we install, it takes some time to do but it’s done once for all. We can see it as an investment.
 
@@ -175,7 +176,7 @@ To enable automerge in Renovate, we need to create pull requests (PRs) to trigge
 
 To make the tests mandatory, we will add branch protection to `main` in the following way:
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/72552895-9996-4b97-a01b-9d9ea12982ed/Untitled.png)
+<img width="782" alt="Untitled" src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/74c27059-6b65-4be3-84d1-b9de0a8a05c8">
 
 I have two workflows with the name `test`:
 
@@ -304,9 +305,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 
 The beginning is the same, but notice that this version does not include either the `epoch` or the `debian-revision`. If you try to define your package using only the version, it will fail.
 
-```docker
 [![asciicast](https://asciinema.org/a/594096.svg)](https://asciinema.org/a/594096)
-```
 
 I managed to solve the issue with the `debian-revision` for other packages by adding a wildcard to it. However, we cannot use this approach for the `epoch` as well. For example, `apt install ssh=*:9.2p1*` won't work.
 
