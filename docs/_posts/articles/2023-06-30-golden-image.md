@@ -305,7 +305,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 
 The beginning is the same, but notice that this version does not include either the `epoch` or the `debian-revision`. If you try to define your package using only the version, it will fail.
 
-[![asciicast](https://asciinema.org/a/594096.svg)](https://asciinema.org/a/594096)
+<script async id="asciicast-594096" src="https://asciinema.org/a/594096.js" data-autoplay="true" data-size="big" loop="1" rows="150"></script>
 
 I managed to solve the issue with the `debian-revision` for other packages by adding a wildcard to it. However, we cannot use this approach for the `epoch` as well. For example, `apt install ssh=*:9.2p1*` won't work.
 
