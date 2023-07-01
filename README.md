@@ -8,7 +8,7 @@ This repository is maintained with [Renovate](https://github.com/renovatebot/ren
 ```sh
 # Install bundle
 ## in `docs` folder
-sudo /usr/local/opt/ruby/bin/bundle install
-# Run locally
-/usr/local/opt/ruby/bin/bundle exec jekyll serve
+docker run --rm -it -v `pwd`/:/workdir --network host --workidr workdir ruby bash
+bundle install
+bundle exec jekyll serve
 ```

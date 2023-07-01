@@ -3,13 +3,15 @@ layout: post
 title:  "Golden Image"
 categories: posts
 subtitle: Golden Image
-accent_image: /assets/img/blog/aws-p1/banner.png
-accent_color: '#FA8D22'
+accent_image: /assets/img/blog/golden-image/side.png
+accent_color: '#ffd966'
 image:
-  path:    /assets/img/blog/aws-p1/banner.png
+  path:    /assets/img/blog/golden-image/banner.png
   srcset:
-    1920w: /assets/img/blog/aws-p1/banner.png
+    1920w: /assets/img/blog/golden-image/banner.png
 ---
+* this unordered seed list will be replaced by the toc
+{:toc .large-only}
 
 ## Introduction
 
@@ -80,12 +82,15 @@ The major updates may cause some issues, as certain packages may not exist in th
 
 Renovate should now be able to detect our `Dockerfile` and our base image in it. We can check it in the `Dependency Dashboard`:
 
-<img width="250" alt="Untitled" src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/226db278-c9c6-419d-a550-59bcbaa844df">
-
+<p align="center">
+  <img src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/226db278-c9c6-419d-a550-59bcbaa844df" />
+</p>
 
 There is currently no more recent version available. Renovate will not make any change.
 
-<img width="1008" alt="Untitled" src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/38a4128f-66d1-4aae-95ba-81b0d48f3e00">
+<p align="center">
+  <img src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/38a4128f-66d1-4aae-95ba-81b0d48f3e00" />
+</p>
 
 From now on, we should always use an up-to-date base image! 🍾
 
@@ -305,7 +310,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 
 The beginning is the same, but notice that this version does not include either the `epoch` or the `debian-revision`. If you try to define your package using only the version, it will fail.
 
-<script async id="asciicast-594096" src="https://asciinema.org/a/594096.js" data-autoplay="true" data-size="big" loop="1" rows="150"></script>
+<script async id="asciicast-594096" src="https://asciinema.org/a/594096.js" data-autoplay="true" data-size="big" data-loop="1" data-rows="10"></script>
 
 I managed to solve the issue with the `debian-revision` for other packages by adding a wildcard to it. However, we cannot use this approach for the `epoch` as well. For example, `apt install ssh=*:9.2p1*` won't work.
 
