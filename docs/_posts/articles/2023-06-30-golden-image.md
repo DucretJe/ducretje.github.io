@@ -34,10 +34,7 @@ To stay up to date without having to do anything, we could install our package i
 
 Therefore, we want to pin our versions and have a bot update them for us.
 
-However, there is another issue. If we want to do absolutely nothing, we must let the bot update the versions without checking on them. But this could lead to broken images 😱.
-
-I don't want to start my day debugging my golden image!
-{:.note title="💭 Note"}
+However, there is another issue. If we want to do absolutely nothing, we must let the bot update the versions without checking on them. But this could lead to broken images 😱 and I don't want to start my day debugging my golden image!
 
 Therefore, we need to add some tests to check if the new version works.
 
@@ -77,7 +74,7 @@ Renovate can update the base image if it uses the `SemVer` convention. My favori
 
 In essence, we are requesting that Renovate monitor our Docker images and handle all major, minor, and patch updates to cover our needs.
 
-The major updates may cause some issues, as certain packages may not exist in the new version. However, we will be notified and these updates should not occur frequently, making it an acceptable risk.
+⚠️ The major updates may cause some issues, as certain packages may not exist in the new version. However, we will be notified and these updates should not occur frequently, making it an acceptable risk.
 {:.note title="💭 Note"}
 
 Renovate should now be able to detect our `Dockerfile` and our base image in it. We can check it in the `Dependency Dashboard`:
