@@ -37,12 +37,12 @@ Therefore, we want to pin our versions and have a bot update them for us.
 However, there is another issue. If we want to do absolutely nothing, we must let the bot update the versions without checking on them. But this could lead to broken images 😱.
 
 I don't want to start my day debugging my golden image!
-{:.note title="💭"}
+{:.note title="💭 Note"}
 
 Therefore, we need to add some tests to check if the new version works.
 
 I won't publish an exhaustive list of the tools I work with, which is why my repository is private. However, I'll present a truncated version of my image here.
-{:.note title="💭"}
+{:.note title="💭 Note"}
 
 ## Renovate
 
@@ -78,7 +78,7 @@ Renovate can update the base image if it uses the `SemVer` convention. My favori
 In essence, we are requesting that Renovate monitor our Docker images and handle all major, minor, and patch updates to cover our needs.
 
 The major updates may cause some issues, as certain packages may not exist in the new version. However, we will be notified and these updates should not occur frequently, making it an acceptable risk.
-{:.note title="💭"}
+{:.note title="💭 Note"}
 
 Renovate should now be able to detect our `Dockerfile` and our base image in it. We can check it in the `Dependency Dashboard`:
 
@@ -123,7 +123,9 @@ Then we specify the name of the repository and we tell Renovate that it’s a `g
 
 That’s it, Renovate should be now monitoring this repository and will update the value when a new version will be released. We can confirm this in the `Dependency Dashboard`:
 
-<img width="263" alt="Untitled" src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/9652334c-d977-4118-b0d8-0e2c0ae836e7">
+<p align="center">
+  <img src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/9652334c-d977-4118-b0d8-0e2c0ae836e7" />
+</p>
 
 Every time there is an update, the value changes and our script uses it to get the latest version of `starship`.
 
@@ -158,13 +160,17 @@ We will use `loose` versioning everywhere, as advised in the [documentation](htt
 
 This setup is a bit more involved, but it allows Renovate to monitor your packages and can be confirmed in the dashboard.
 
-<img width="319" alt="Untitled" src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/848abec0-4870-494f-b829-77acc916a3d6">
+<p align="center">
+  <img src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/848abec0-4870-494f-b829-77acc916a3d6" />
+</p>
 
 It will stick to the version that we see [here](https://repology.org/project/ca-certificates/versions):
 
-<img width="1072" alt="Untitled" src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/009fc43e-f9fe-4618-abfa-a71b6b50d5d6">
+<p align="center">
+  <img src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/009fc43e-f9fe-4618-abfa-a71b6b50d5d6" />
+</p>
 
-This process must also be repeated for ************************each package************************ we install, it takes some time to do but it’s done once for all. We can see it as an investment.
+This process must also be repeated for **each package** we install, it takes some time to do but it’s done once for all. We can see it as an investment.
 
 ### Setup renovate and the repository to allow auto-merge
 
@@ -181,7 +187,9 @@ To enable automerge in Renovate, we need to create pull requests (PRs) to trigge
 
 To make the tests mandatory, we will add branch protection to `main` in the following way:
 
-<img width="782" alt="Untitled" src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/74c27059-6b65-4be3-84d1-b9de0a8a05c8">
+<p align="center">
+  <img src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/74c27059-6b65-4be3-84d1-b9de0a8a05c8" />
+</p>
 
 I have two workflows with the name `test`:
 
@@ -190,10 +198,8 @@ I have two workflows with the name `test`:
 
 The workflows themselves are not the subject of this post, so I won't describe them here.
 
-<aside>
-🧑🏻‍💻 Renovate will create a pull request and wait for the tests to pass. However, it may take several hours for the pull request to merge. In my case, it took approximately three hours.
-
-</aside>
+Renovate will create a pull request and wait for the tests to pass. However, it may take several hours for the pull request to merge. In my case, it took approximately three hours.
+{:.note title="💭 Note"}
 
 ## The Dockerfile
 
