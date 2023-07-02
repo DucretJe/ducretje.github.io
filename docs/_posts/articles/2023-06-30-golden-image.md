@@ -127,9 +127,9 @@ That’s it, Renovate should be now monitoring this repository and will update t
   <img src="https://github.com/DucretJe/ducretje.github.io/assets/5384298/9652334c-d977-4118-b0d8-0e2c0ae836e7" />
 </p>
 
-Every time there is an update, the value changes and our script uses it to get the latest version of `starship`.
+Every time there is an update, the value changes and our script uses it to get the latest version of `starship`. This process must be repeated for each package of this kind.
 
-This process must be repeated for each package of this kind. As you can see, I have at least three others 🥷🏻
+As you can see, I have at least three others 🥷🏻
 
 ### Bump the packet manager handled packages
 
