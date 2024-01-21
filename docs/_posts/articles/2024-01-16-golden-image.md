@@ -127,8 +127,8 @@ RUN python3 -m venv /thefuck-env && \
 I may need to improve the consistency of this section…
 {:.note title="💭 Note"}
 
-One difficulty I encountered is with packages that have a version containing an epoch and a debian-revision. 
-The debian-revision can be addressed with a wildcard ${PACKAGE_VERSION}*, but the epoch is a bit trickier. 
+One difficulty I encountered is with packages that have a version containing an epoch and a debian-revision.
+The debian-revision can be addressed with a wildcard ${PACKAGE_VERSION}*, but the epoch is a bit trickier.
 For those packages, you need to use a search pattern:
 
 ```bash
@@ -223,14 +223,14 @@ For this purpose, I created a test function:
 
 ```makefile
 define test_command
-	@echo ${ORANGE}Testing $(1) 🔬${LGRAY} && \
-	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v `pwd`:/rec --pull always --entrypoint $(1) $(IMAGE_NAME) $(2); \
-	if [ $$? = 0 ]; then \
-		echo ${GREEN}$(1) OK ✅${NC}; \
-	else \
-		echo ${RED}$(1) test failed 🛑${NC}; \
-		echo "1" > test-fail; \
-	fi
+  @echo ${ORANGE}Testing $(1) 🔬${LGRAY} && \
+  docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v `pwd`:/rec --pull always --entrypoint $(1) $(IMAGE_NAME) $(2); \
+  if [ $$? = 0 ]; then \
+    echo ${GREEN}$(1) OK ✅${NC}; \
+  else \
+    echo ${RED}$(1) test failed 🛑${NC}; \
+    echo "1" > test-fail; \
+  fi
 endef
 ```
 
@@ -238,10 +238,10 @@ I also created a build step:
 
 ```makefile
 build:
-	@cd ../docker && \
-	docker buildx create --name multiarchbuilder --use && \
-	docker buildx build --platform linux/amd64,linux/arm64 -t $(IMAGE_NAME) .
-	docker buildx rm multiarchbuilder
+  @cd ../docker && \
+  docker buildx create --name multiarchbuilder --use && \
+  docker buildx build --platform linux/amd64,linux/arm64 -t $(IMAGE_NAME) .
+  docker buildx rm multiarchbuilder
 ```
 
 And multiple checks like:
@@ -255,11 +255,11 @@ Finally a final check that will return a `rc` 1 if one of the tests failed.
 
 ```makefile
 check:
-	@if [ -f test-fail ]; then \
-		rm test-fail; \
-		echo ${RED} Some tests failed; \
-		exit 1; \
-	fi
+  @if [ -f test-fail ]; then \
+    rm test-fail; \
+    echo ${RED} Some tests failed; \
+    exit 1; \
+  fi
 ```
 
 ## Caveheats
