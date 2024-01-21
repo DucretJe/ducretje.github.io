@@ -248,7 +248,7 @@ And multiple checks like:
 
 ```makefile
 act:
-	$(call test_command,act,--version)
+  $(call test_command,act,--version)
 ```
 
 Finally a final check that will return a `rc` 1 if one of the tests failed.
